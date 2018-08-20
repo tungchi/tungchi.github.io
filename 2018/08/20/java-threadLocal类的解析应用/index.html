@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="java-threadLocal类的解析应用1. 参考Java并发编程：深入剖析ThreadLocal:https://www.cnblogs.com/dolphin0520/p/3920407.html 2. 为什么使用threadLocal1.假设有一个共享变量,在多线程中使用,就会存在问题,我们必须进行同步处理,但是这样效率就会降低.这时候需要分析这个共享变量有没有必要,如果有必要,那不能使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/08/20/java-threadLocal类的解析应用/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="java-threadLocal类的解析应用1. 参考Java并发编程：深入剖析ThreadLocal:https://www.cnblogs.com/dolphin0520/p/3920407.html 2. 为什么使用threadLocal1.假设有一个共享变量,在多线程中使用,就会存在问题,我们必须进行同步处理,但是这样效率就会降低.这时候需要分析这个共享变量有没有必要,如果有必要,那不能使">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-16T09:07:45.658Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="java-threadLocal类的解析应用1. 参考Java并发编程：深入剖析ThreadLocal:https://www.cnblogs.com/dolphin0520/p/3920407.html 2. 为什么使用threadLocal1.假设有一个共享变量,在多线程中使用,就会存在问题,我们必须进行同步处理,但是这样效率就会降低.这时候需要分析这个共享变量有没有必要,如果有必要,那不能使">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-java-threadLocal类的解析应用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/20/java-threadLocal类的解析应用/" class="article-date">
+  <time datetime="2018-08-20T07:17:33.077Z" itemprop="datePublished">2018-08-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="java-threadLocal类的解析应用"><a href="#java-threadLocal类的解析应用" class="headerlink" title="java-threadLocal类的解析应用"></a>java-threadLocal类的解析应用</h1><h3 id="1-参考"><a href="#1-参考" class="headerlink" title="1. 参考"></a>1. 参考</h3><p>Java并发编程：深入剖析ThreadLocal:<a href="https://www.cnblogs.com/dolphin0520/p/3920407.html" target="_blank" rel="noopener">https://www.cnblogs.com/dolphin0520/p/3920407.html</a></p>
+<h3 id="2-为什么使用threadLocal"><a href="#2-为什么使用threadLocal" class="headerlink" title="2. 为什么使用threadLocal"></a>2. 为什么使用threadLocal</h3><p>1.假设有一个共享变量,在多线程中使用,就会存在问题,我们必须进行同步处理,但是这样效率就会降低.这时候需要分析<br>这个共享变量有没有必要,如果有必要,那不能使用ThreadLocal,如果没必要,我们就可以使用ThreadLocal.<br>ThreadLocal会在每个线程中建一个变量,线程之间不影响,但是会加大内存开销.</p>
+<h3 id="3-解析ThreadLocal"><a href="#3-解析ThreadLocal" class="headerlink" title="3. 解析ThreadLocal"></a>3. 解析ThreadLocal</h3><p>我们最常用的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public T get() &#123; &#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>get()方法是用来获取ThreadLocal在当前线程中保存的变量副本，set()用来设置当前线程中变量的副本，remove()用来移除当前线程中变量的副本</p>
+</blockquote>
+<p>先看get方法具体实现:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * Returns the value in the current thread&apos;s copy of this</span><br><span class="line">     * thread-local variable.  If the variable has no value for the</span><br><span class="line">     * current thread, it is first initialized to the value returned</span><br><span class="line">     * by an invocation of the &#123;@link #initialValue&#125; method.</span><br><span class="line">     *</span><br><span class="line">     * @return the current thread&apos;s value of this thread-local</span><br><span class="line">     */</span><br><span class="line">    public T get() &#123;</span><br><span class="line">        Thread t = Thread.currentThread();</span><br><span class="line">        ThreadLocalMap map = getMap(t);</span><br><span class="line">        if (map != null) &#123;</span><br><span class="line">            ThreadLocalMap.Entry e = map.getEntry(this);</span><br><span class="line">            if (e != null)</span><br><span class="line">                return (T)e.value;</span><br><span class="line">        &#125;</span><br><span class="line">        return setInitialValue();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>先是获取当前线程t,然后调用getMap()传入t<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * Get the map associated with a ThreadLocal. Overridden in</span><br><span class="line">     * InheritableThreadLocal.</span><br><span class="line">     *</span><br><span class="line">     * @param  t the current thread</span><br><span class="line">     * @return the map</span><br><span class="line">     */</span><br><span class="line">    ThreadLocalMap getMap(Thread t) &#123;</span><br><span class="line">        return t.threadLocals;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>getMap()返回的是当前线程的一个变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/* ThreadLocal values pertaining to this thread. This map is maintained</span><br><span class="line">     * by the ThreadLocal class. */</span><br><span class="line">    ThreadLocal.ThreadLocalMap threadLocals = null;</span><br></pre></td></tr></table></figure></p>
+<p>ThreadLocalMap 是ThreadLocal的内部类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * ThreadLocalMap is a customized hash map suitable only for</span><br><span class="line">     * maintaining thread local values. No operations are exported</span><br><span class="line">     * outside of the ThreadLocal class. The class is package private to</span><br><span class="line">     * allow declaration of fields in class Thread.  To help deal with</span><br><span class="line">     * very large and long-lived usages, the hash table entries use</span><br><span class="line">     * WeakReferences for keys. However, since reference queues are not</span><br><span class="line">     * used, stale entries are guaranteed to be removed only when</span><br><span class="line">     * the table starts running out of space.</span><br><span class="line">     */</span><br><span class="line">static class ThreadLocalMap &#123;</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * The entries in this hash map extend WeakReference, using</span><br><span class="line">         * its main ref field as the key (which is always a</span><br><span class="line">         * ThreadLocal object).  Note that null keys (i.e. entry.get()</span><br><span class="line">         * == null) mean that the key is no longer referenced, so the</span><br><span class="line">         * entry can be expunged from table.  Such entries are referred to</span><br><span class="line">         * as &quot;stale entries&quot; in the code that follows.</span><br><span class="line">         */</span><br><span class="line">        static class Entry extends WeakReference&lt;ThreadLocal&gt; &#123;</span><br><span class="line">            /** The value associated with this ThreadLocal. */</span><br><span class="line">            Object value;</span><br><span class="line"></span><br><span class="line">            Entry(ThreadLocal k, Object v) &#123;</span><br><span class="line">                super(k);</span><br><span class="line">                value = v;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>ThreadLocalMap 的entry继承了<strong>weakReference</strong>(弱引用,后续会讲到),ThreadLocal作为key<br>接get()以上,如果map为null或者entry为null,返回setInitialValue()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * Variant of set() to establish initialValue. Used instead</span><br><span class="line">     * of set() in case user has overridden the set() method.</span><br><span class="line">     *</span><br><span class="line">     * @return the initial value</span><br><span class="line">     */</span><br><span class="line">    private T setInitialValue() &#123;</span><br><span class="line">        T value = initialValue();</span><br><span class="line">        Thread t = Thread.currentThread();</span><br><span class="line">        ThreadLocalMap map = getMap(t);</span><br><span class="line">        if (map != null)</span><br><span class="line">            map.set(this, value);</span><br><span class="line">        else</span><br><span class="line">            createMap(t, value);</span><br><span class="line">        return value;</span><br><span class="line">    &#125;</span><br><span class="line">    protected T initialValue() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">    void createMap(Thread t, T firstValue) &#123;</span><br><span class="line">        t.threadLocals = new ThreadLocalMap(this, firstValue);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>setInitialValue显示获取当前线程的ThreadLocalMap,如果为空,创建,否则set.</p>
+<h3 id="4-ThreadLocal应用场景"><a href="#4-ThreadLocal应用场景" class="headerlink" title="4. ThreadLocal应用场景"></a>4. ThreadLocal应用场景</h3><p>数据库管理,session管理等,举例代码参考上面的链接.<br>我曾经在日期格式化里用过<br>private static final ThreadLocal<simpledateformat> df = new ThreadLocal<simpledateformat>() {<br>        @Override<br>        protected SimpleDateFormat initialValue() {<br>            return new SimpleDateFormat(“yyyy-MM-dd”);<br>        }<br>    };</simpledateformat></simpledateformat></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/20/java-threadLocal类的解析应用/" data-id="cjl1y7f7n000284lohfmbtejx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/20/java跨域的学习/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/20/java web学习/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/20/java跨域的学习/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/20/java-threadLocal类的解析应用/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/20/java web学习/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/20/javaee部署的web.xml详解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/20/领域/参考/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

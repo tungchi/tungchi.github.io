@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="springMVC常用注解详解(一)参考1.springmvc常用注解标签详解:https://www.cnblogs.com/leskang/p/5445698.html2.@PathVariable注解的使用:https://blog.csdn.net/yalishadaa/article/details/705555613.SpringMVC中@ModelAttribute和@Session">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/08/20/java的注解/springMVC常用注解详解(一)/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="springMVC常用注解详解(一)参考1.springmvc常用注解标签详解:https://www.cnblogs.com/leskang/p/5445698.html2.@PathVariable注解的使用:https://blog.csdn.net/yalishadaa/article/details/705555613.SpringMVC中@ModelAttribute和@Session">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-24T07:26:03.197Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="springMVC常用注解详解(一)参考1.springmvc常用注解标签详解:https://www.cnblogs.com/leskang/p/5445698.html2.@PathVariable注解的使用:https://blog.csdn.net/yalishadaa/article/details/705555613.SpringMVC中@ModelAttribute和@Session">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-java的注解/springMVC常用注解详解(一)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/20/java的注解/springMVC常用注解详解(一)/" class="article-date">
+  <time datetime="2018-08-20T07:17:33.058Z" itemprop="datePublished">2018-08-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="springMVC常用注解详解-一"><a href="#springMVC常用注解详解-一" class="headerlink" title="springMVC常用注解详解(一)"></a>springMVC常用注解详解(一)</h1><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>1.springmvc常用注解标签详解:<a href="https://www.cnblogs.com/leskang/p/5445698.html" target="_blank" rel="noopener">https://www.cnblogs.com/leskang/p/5445698.html</a><br>2.@PathVariable注解的使用:<a href="https://blog.csdn.net/yalishadaa/article/details/70555561" target="_blank" rel="noopener">https://blog.csdn.net/yalishadaa/article/details/70555561</a><br>3.SpringMVC中@ModelAttribute和@SessionAttributes注解的使用:<a href="https://blog.csdn.net/z69183787/article/details/53695835" target="_blank" rel="noopener">https://blog.csdn.net/z69183787/article/details/53695835</a></p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="1-Controller"><a href="#1-Controller" class="headerlink" title="1. @Controller"></a>1. @Controller</h4><p>Spring mvc,model,view,controler,<br>@controller就是所谓的控制器,DispatcherServlet分发的请求,它将用户请求的数据 通过业务处理层@service转化成为一个model,返回给相应的view展示.<br>使用@controller,只需要对一个类标注@controller,然后在对应类或者方法上使用@RequestMapping 和@RequestParam 等一些注解用以定义URL 请求和Controller 方法之间的映射，这样controller的方法就能被网络请求访问到.</p>
+<p>ps:类标注@controller还不能使用,要在spring配置文件中配置扫描bean路径:<br>&lt; context:component-scan base-package = “com.ykf.test.web” /&gt;</p>
+<h4 id="2-RequestMapping"><a href="#2-RequestMapping" class="headerlink" title="2. @RequestMapping"></a>2. @RequestMapping</h4><p>@RequestMapping 用在controller类的方法或类上面用来处理地址映射的注解.如果用在类上,类上的路径是所有方法的父路径.</p>
+<p>requestmapping的属性:</p>
+<ul>
+<li><h5 id="values-实际路径"><a href="#values-实际路径" class="headerlink" title="values 实际路径"></a>values 实际路径</h5></li>
+<li><h5 id="method-请求的method类型-比如get-post等等"><a href="#method-请求的method类型-比如get-post等等" class="headerlink" title="method 请求的method类型,比如get,post等等"></a>method 请求的method类型,比如get,post等等</h5></li>
+<li><h5 id="consumes"><a href="#consumes" class="headerlink" title="consumes"></a>consumes</h5></li>
+<li><h5 id="produces"><a href="#produces" class="headerlink" title="produces"></a>produces</h5></li>
+<li><h5 id="params-指request里必须包含的参数-否则无法处理"><a href="#params-指request里必须包含的参数-否则无法处理" class="headerlink" title="params 指request里必须包含的参数,否则无法处理"></a>params 指request里必须包含的参数,否则无法处理</h5></li>
+<li><h5 id="headers-指request的header里必须包含的数据-否则无法处理"><a href="#headers-指request的header里必须包含的数据-否则无法处理" class="headerlink" title="headers 指request的header里必须包含的数据,否则无法处理"></a>headers 指request的header里必须包含的数据,否则无法处理</h5></li>
+</ul>
+<h4 id="3-autowired-和-Resource"><a href="#3-autowired-和-Resource" class="headerlink" title="3. @autowired 和 @Resource"></a>3. @autowired 和 @Resource</h4><p>@autowired 和 @Resource 都是bean的注入使用.<br>差异共同点请看参考1,总结来说就是@autowired 和 @Resource 都可以用在属性和setter上,但是用在属性上就不需要再写setter方法了.@autowired是根据type实现注入的,@resource有name和type两种属性,哪个属性赋值了就用属性来查找注入,<br>两个属性都不赋值默认根据name注入.</p>
+<h4 id="4-ModelAttribute和-SessionAttributes"><a href="#4-ModelAttribute和-SessionAttributes" class="headerlink" title="4. @ModelAttribute和 @SessionAttributes"></a>4. @ModelAttribute和 @SessionAttributes</h4><p>@ModelAttribute :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">@RequestMapping(value=&quot;testSpringModelAttrbuite1&quot;)</span><br><span class="line">public class TestSpringModelAttrbuiteController1 &#123;</span><br><span class="line">	@ModelAttribute(&quot;user&quot;)</span><br><span class="line">	public TestSpringModelAttrbuiteUser getTestUser() &#123;</span><br><span class="line">		return new TestSpringModelAttrbuiteUser();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@RequestMapping(value=&quot;test&quot;,method=RequestMethod.GET)</span><br><span class="line">	public String test(@ModelAttribute(&quot;user&quot;) TestSpringModelAttrbuiteUser user,</span><br><span class="line">			HashMap&lt;String, Object&gt; map ) &#123;</span><br><span class="line">		System.out.println(user);</span><br><span class="line">		System.out.println(map.get(&quot;user&quot;));</span><br><span class="line">		return &quot;success&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>打印结果:<br>id:0;name:admin;age:99<br>id:0;name:admin;age:99</p>
+<p>map里会默认传入@ModelAttribute的值,如果map的value类型不符,会报java.lang.ClassCastException异常<br>调用方法的时候,会先去调用@ModelAttribute注解的方法获取参数值,放入map.如果有另外的参数,也会放进去,注意<br>如果这时候传了参数,那么TestUser先走@ModelAttribute注解方法,再传过来的参数覆盖<br>如果传入参数:<a href="http://localhost:8760/testSpringModelAttrbuite1/test?id=1&amp;&amp;name=王大" target="_blank" rel="noopener">http://localhost:8760/testSpringModelAttrbuite1/test?id=1&amp;&amp;name=王大</a><br>会打印:<br>id:1;name:王大;age:99<br>id:1;name:王大;age:99</p>
+<ul>
+<li>关于@SessionAttributes<br>@SessionAttributes是使用在类上的,有两种形式<br>type或者value<br>具体表现形式为:<br>@SessionAttributes(types={TestSpringModelAttrbuiteUser.class)<br>@SessionAttributes(value={“user”, sessionTest},<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">@RequestMapping(value=&quot;testSpringSessionAttributes&quot;)</span><br><span class="line">@SessionAttributes(value=&#123;&quot;user&quot;&#125;)</span><br><span class="line">public class TestSpringSessionAttributesController &#123;</span><br><span class="line"></span><br><span class="line">	@RequestMapping(value=&quot;test&quot;,method=RequestMethod.GET)</span><br><span class="line">	public String test(Map&lt;String,Object&gt; map,HttpSession session) &#123;</span><br><span class="line">		System.out.println(session.getAttribute(&quot;user&quot;));</span><br><span class="line">		return &quot;success&quot;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@ModelAttribute(&quot;user&quot;)</span><br><span class="line">	public TestSpringModelAttrbuiteUser getTestUser() &#123;</span><br><span class="line">		return new TestSpringModelAttrbuiteUser();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>第一次调用打印的是<br>null<br>第二次调用打印的是<br>id:0;name:admin;age:99<br>说明第一次进来的时候还没有存进session,是第一次调用结束后才存进去的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">@RequestMapping(value=&quot;testSpringSessionAttributes&quot;)</span><br><span class="line">@SessionAttributes(value=&#123;&quot;user&quot;,&quot;sessionTest&quot;&#125;)</span><br><span class="line">public class TestSpringSessionAttributesController &#123;</span><br><span class="line"></span><br><span class="line">	@RequestMapping(value=&quot;test&quot;,method=RequestMethod.GET)</span><br><span class="line">	public String test(Map&lt;String,Object&gt; map,HttpSession session) &#123;</span><br><span class="line">		System.out.println(session.getAttribute(&quot;user&quot;));</span><br><span class="line">		System.out.println(session.getAttribute(&quot;sessionTest&quot;));</span><br><span class="line">		System.out.println(map.get(&quot;user&quot;));</span><br><span class="line">		return &quot;success&quot;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@RequestMapping(value=&quot;test1&quot;,method=RequestMethod.GET)</span><br><span class="line">	public String test1(ModelAndView modelAndView) &#123;</span><br><span class="line">		modelAndView.addObject(&quot;sessionTest&quot;, &quot;sessionTest&quot;);</span><br><span class="line">		return &quot;redirect:/testSpringSessionAttributes/test&quot;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	@ModelAttribute(&quot;user&quot;)</span><br><span class="line">	public TestSpringModelAttrbuiteUser getTestUser() &#123;</span><br><span class="line">		return new TestSpringModelAttrbuiteUser();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第一次调用打印结果:<br>id:0;name:admin;age:99<br>null<br>id:0;name:admin;age:99<br>这表示modelAndView里的属性如果符合SessionAttributes也会放进session,另外,发现map里不会自动包含<br>user了.应该就是放入session的不会再自动放入map了.</p>
+<h4 id="5-PathVariable"><a href="#5-PathVariable" class="headerlink" title="5. @PathVariable"></a>5. @PathVariable</h4><p>带占位符的 URL 是 Spring3.0 新增的功能,通过 @PathVariable 可以将 URL 中占位符参数绑定到控制器处理方法的入参中,就是可以把uri里的变量作为传入参数</p>
+<h4 id="6-requestParam"><a href="#6-requestParam" class="headerlink" title="6. @requestParam"></a>6. @requestParam</h4><p>@requestParam就是类似request.getParameter(“”),下面引用自参考1.</p>
+<blockquote>
+<p>它有三个常用参数：defaultValue = “0”, required = false, value = “isApp”；defaultValue 表示设置默认值，required 通过boolean设置是否是必须要传入的参数，value 值表示接受的传入的参数类型。</p>
+</blockquote>
+<h4 id="7、-ResponseBody"><a href="#7、-ResponseBody" class="headerlink" title="7、@ResponseBody"></a>7、@ResponseBody</h4><p>@ResponseBody用于将Controller的方法返回的对象,通过适当的HttpMessageConverter转换为指定格式后，写入到Response对象的body数据区。方法返回值不是html页面路径的时候可以用,目前基本上都是将其转化成json.</p>
+<h4 id="8、-Component"><a href="#8、-Component" class="headerlink" title="8、@Component"></a>8、@Component</h4><p>相当于通用的注解,一般不使用</p>
+<h4 id="9、-Repository"><a href="#9、-Repository" class="headerlink" title="9、@Repository"></a>9、@Repository</h4><p>用于注解dao层，在daoImpl类上面注解。</p>
+<h4 id="10、-RequestHeader、-CookieValue"><a href="#10、-RequestHeader、-CookieValue" class="headerlink" title="10、@RequestHeader、@CookieValue"></a>10、@RequestHeader、@CookieValue</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">@RequestMapping(value=&quot;testSpringRequestHeader&quot;)</span><br><span class="line">public class TestSpringRequestHeaderController &#123;</span><br><span class="line"></span><br><span class="line">	@RequestMapping(value=&quot;test&quot;)</span><br><span class="line">	public String test(@RequestHeader(&quot;Accept-Encoding&quot;) String customSession,</span><br><span class="line">			@CookieValue(&quot;JSESSIONID&quot;) String jsessionId)&#123;</span><br><span class="line">		System.out.println(customSession);</span><br><span class="line">		System.out.println(jsessionId);</span><br><span class="line">		return &quot;success&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印结果:<br>gzip, deflate, br<br>320DD4231DEBBAE7CF6B48F880373A68<br>@RequestHeader 是获取header的某个属性,@CookieValue是获取cookie的某个值</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/20/java的注解/springMVC常用注解详解(一)/" data-id="cjl1y7f8k000j84lo0hsxm7rq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/20/java夯实基础/java基础(2)-java语法基础/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/20/java的注解/java 元注解(3)--@Documented/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/20/java跨域的学习/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/20/java-threadLocal类的解析应用/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/20/java web学习/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/20/javaee部署的web.xml详解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/20/领域/参考/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

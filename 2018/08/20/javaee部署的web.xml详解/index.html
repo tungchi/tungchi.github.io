@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="web.xml详解1. web.xml 的第一行1&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; web.xml的第一行定义了该web.xml的版本描述和语言编码方式。 2. web.xml的根节点 官方文档说明:官方文档 参考链接:https://blog.csdn.net/u012453500/article/d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/08/20/javaee部署的web.xml详解/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="web.xml详解1. web.xml 的第一行1&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; web.xml的第一行定义了该web.xml的版本描述和语言编码方式。 2. web.xml的根节点 官方文档说明:官方文档 参考链接:https://blog.csdn.net/u012453500/article/d">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T07:07:24.672Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="web.xml详解1. web.xml 的第一行1&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; web.xml的第一行定义了该web.xml的版本描述和语言编码方式。 2. web.xml的根节点 官方文档说明:官方文档 参考链接:https://blog.csdn.net/u012453500/article/d">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-javaee部署的web.xml详解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/20/javaee部署的web.xml详解/" class="article-date">
+  <time datetime="2018-08-20T07:17:33.076Z" itemprop="datePublished">2018-08-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="web-xml详解"><a href="#web-xml详解" class="headerlink" title="web.xml详解"></a>web.xml详解</h1><h4 id="1-web-xml-的第一行"><a href="#1-web-xml-的第一行" class="headerlink" title="1. web.xml 的第一行"></a>1. web.xml 的第一行</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br></pre></td></tr></table></figure>
+<p>web.xml的第一行定义了该web.xml的版本描述和语言编码方式。</p>
+<h4 id="2-web-xml的根节点"><a href="#2-web-xml的根节点" class="headerlink" title="2. web.xml的根节点"></a>2. web.xml的根节点</h4><ul>
+<li>官方文档说明:<a href="http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/index.html" target="_blank" rel="noopener">官方文档</a></li>
+<li>参考链接:<a href="https://blog.csdn.net/u012453500/article/details/42320451" target="_blank" rel="noopener">https://blog.csdn.net/u012453500/article/details/42320451</a></li>
+</ul>
+<p><code>&lt;web-app&gt;&lt;web-app&gt;</code>是web.xml的根节点。xml的schema都必须放在xml文件的根标签上。同理其他类型的xml的schema也都必须放在根标签上。<br>schema的官方描述是XML Schemas for Java EE Deployment Descriptors,大意是javaee部署描述符,作用大概是用来描述文档结构的.Schema是一个Xml.</p>
+<blockquote>
+<p>引用方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&lt;简称:根节点 xmlns:定义简称=&quot;Schema中定义的名称空间(uri)&quot;</span><br><span class="line">&gt;		    xmlns:xsi=&quot;http:www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">&gt;		    xsi:schemaLocation=&quot;名称空间(前面的) Schema文档地址位置&quot;&gt;</span><br><span class="line">&gt;</span><br><span class="line">&gt;	&lt;简称:标签名&gt;第一份实例文档&lt;/简称:标签名&gt;</span><br><span class="line">&gt;	&lt;!--文档中需要约束的元素全部用定义的简称名修饰，不管是元素头还是尾--&gt;</span><br><span class="line">&gt;&lt;/简称:根节点&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>xmlns：是系统识别的关键字，可以理解为一种变量类型<br>简称：就是名称空间的简写形式，一个引用，指向定义的名称空间<br>名称空间：通常名称空间是一个http地址，不过这个URI不指文件，可以看为一个值唯一的字符串标记<br>schemaLocation：其中定义了约束文档Schema的地址，这个关键字来自于xsi<br>xsi：定义的变量名，引用的是之后的名称空间，这个名称空间是个著名空间，会被Schema解析引擎所识别，会去找这个命名空间所对应的Schema文档</p>
+</blockquote>
+<h4 id="3-web-xml-各个标签的定义"><a href="#3-web-xml-各个标签的定义" class="headerlink" title="3. web.xml 各个标签的定义"></a>3. web.xml 各个标签的定义</h4><p>xml的schema如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;web-app xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">	xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot; xmlns:web=&quot;http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot;</span><br><span class="line">	xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot;</span><br><span class="line">	version=&quot;2.5&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>各个标签的含义可以看文档:<a href="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" target="_blank" rel="noopener">http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd</a><br><code>`</code></p>
+<p><display-name>描述性文字,无作用</display-name><br><!--context-param元素包含声明Web应用程序的servlet上下文初始化参数。--></p>
+<p><context-param><br>        <param-name>contextConfigLocation</param-name><br>        <param-value>classpath<em>:/spring-context</em>.xml</param-value><br></context-param><br><!-- 事件监听器 --></p>
+<p><listener><br>    <listener-class>net.sf.ehcache.constructs.web.ShutdownListener</listener-class><br></listener><br><!-- 过滤器 --></p>
+<p><filter><br>    <filter-name>encodingFilter</filter-name><br>    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class><br>    <init-param><br>        <param-name>encoding</param-name><br>        <param-value>UTF-8</param-value><br>    </init-param><br>    <init-param><br>        <param-name>forceEncoding</param-name><br>        <param-value>true</param-value><br>    </init-param><br></filter></p>
+<p><filter-mapping><br>    <filter-name>encodingFilter</filter-name><br>    <url-pattern>/*</url-pattern><br></filter-mapping><br><!-- servlet--></p>
+<p><servlet><br>    <servlet-name>springServlet</servlet-name><br>    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class><br>    <init-param><br>        <param-name>contextConfigLocation</param-name><br>        <param-value>classpath<em>:/spring-mvc</em>.xml</param-value><br>    </init-param><br>    <load-on-startup>1</load-on-startup><br></servlet></p>
+<p><servlet-mapping><br>    <servlet-name>springServlet</servlet-name><br>    <url-pattern>/</url-pattern><br></servlet-mapping><br><!-- 根据错误码跳转到对应页面 --></p>
+<p><error-page></error-page></p>
+<p><error-code>404</error-code></p>
+<p><location>/error.jsp</location><br><br><!--根据异常类型跳转到对应页面--></p>
+<p><error-page></error-page></p>
+<p><exception-type>java.lang.NullException</exception-type></p>
+<p><location>/error.jsp</location><br></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/20/javaee部署的web.xml详解/" data-id="cjl1y7f7o000384lo32oksnkm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/20/java web学习/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/20/领域/参考/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/20/java跨域的学习/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/20/java-threadLocal类的解析应用/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/20/java web学习/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/20/javaee部署的web.xml详解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/20/领域/参考/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
